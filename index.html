@@ -8,17 +8,13 @@
         function getAuthCode() {
             const queryParams = new URLSearchParams(window.location.search);
             const code = queryParams.get('code');
-            if (code) {
-                // TODO: Send the code back to your Figma plugin
-                console.log("Authorization Code:", code);
-                // Display the code for now
-                document.body.innerHTML = `<p>Authorization code: ${code}</p>`;
-            } else {
-                document.body.innerHTML = `<p>No authorization code found in URL.</p>`;
+            if (code && window.opener) {
+                window.opener.postMessage({ type: 'authorization_code', code: code }, '*');
             }
         }
-
+    
         window.onload = getAuthCode;
     </script>
+    
 </body>
 </html>
